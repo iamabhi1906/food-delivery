@@ -1,9 +1,11 @@
 import { Module } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { UserOrmConfig } from "./infrastructure/database/config/orm.config.js";
+import { IdentityModule } from "./identity/identity.module.js";
+import { UserModule } from "./user/user.module.js";
+import { UserOrmConfig } from "./database/config/orm.config.js";
 
 @Module({
-	imports: [ConfigModule.forRoot({ isGlobal: true }), TypeOrmModule.forRootAsync(UserOrmConfig)],
+	imports: [TypeOrmModule.forRootAsync(UserOrmConfig), IdentityModule, UserModule],
+	exports: [UserModule],
 })
 export class UsersModule {}

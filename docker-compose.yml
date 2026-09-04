@@ -1,0 +1,56 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: food-delivery-postgres
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - food_delivery_data:/var/lib/postgresql/data
+      - ./init-schemas.sql:/docker-entrypoint-initdb.d/init-schemas.sql:ro
+    networks:
+      - food_delivery
+
+  cloudbeaver:
+    image: dbeaver/cloudbeaver:latest
+    container_name: food-delivery-cloudbeaver
+    restart: unless-stopped
+    ports:
+      - "8978:8978"
+    volumes:
+      - cloudbeaver_workspace:/opt/cloudbeaver/workspace
+    networks:
+      - food_delivery
+    depends_on:
+      - postgres
+
+
+  api:
+    build:
+      context: .
+      target: dev
+    container_name: food-delivery-api
+    init: true
+    ports:
+      - "5050:3000"
+    volumes:
+      - .:/app
+      - api_node_modules:/app/node_modules
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+    command: pnpm start:dev
+    networks:
+      - food_delivery
+
+
+volumes:
+  food_delivery_data:
+  food_delivery_data_pgadmin:
+  api_node_modules:
+  cloudbeaver_workspace:
+
+networks:
+  food_delivery:
+    driver: bridge

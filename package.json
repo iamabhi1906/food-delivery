@@ -1,39 +1,57 @@
 {
-  "name": "food-delivery",
-  "version": "0.0.1",
-  "description": "",
-  "author": "",
-  "private": true,
-  "license": "UNLICENSED",
-  "type": "module",
-  "scripts": {
-    "build": "nest build",
-    "deploy": "nest deploy",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "nest start",
-    "start:dev": "nest start --watch",
-    "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main"
-  },
-  "dependencies": {
-    "@nestjs/common": "^12.0.1",
-    "@nestjs/config": "^12.0.0",
-    "@nestjs/core": "^12.0.1",
-    "@nestjs/platform-express": "^12.0.1",
-    "@nestjs/typeorm": "^12.0.1",
-    "pg": "^8.23.0",
-    "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.1",
-    "typeorm": "^1.1.1"
-  },
-  "devDependencies": {
-    "@nestjs/cli": "^12.0.0",
-    "@nestjs/mau": "^0.2.6",
-    "@nestjs/schematics": "^12.0.0",
-    "@nestjs/testing": "^12.0.1",
-    "@types/express": "^5.0.0",
-    "@types/node": "^24.0.0",
-    "source-map-support": "^0.5.21",
-    "typescript": "^6.0.2"
-  }
+	"name": "food-delivery",
+	"version": "0.0.1",
+	"description": "Production-ready NestJS Modular Monolith for Food Delivery with PostgreSQL and TypeORM",
+	"author": "",
+	"private": true,
+	"license": "UNLICENSED",
+	"type": "module",
+	"scripts": {
+		"build": "nest build",
+		"format": "biome format --write src",
+		"format:check": "biome format src",
+		"lint": "biome lint --write src",
+		"lint:check": "biome lint src",
+		"check": "biome check --write src",
+		"start": "nest start",
+		"start:dev": "nest start --watch",
+		"start:debug": "nest start --debug --watch",
+		"start:prod": "node dist/main.js",
+		"typeorm:ts": "tsx ./node_modules/typeorm/cli.js",
+		"typeorm:js": "node ./node_modules/typeorm/cli.js",
+
+		"migration:generate": "tsx ./src/scripts/migration.ts generate",
+		"migration:create": "tsx ./src/scripts/migration.ts create",
+		"migration:run": "pnpm build && node ./dist/scripts/migration.js run",
+		"migration:revert": "pnpm build && node ./dist/scripts/migration.js revert",
+
+		"migration:run:all": "pnpm migration:users:run && pnpm migration:orders:run && pnpm migration:notifications:run",
+		"migration:run:all:prod": "pnpm migration:users:run:prod && pnpm migration:orders:run:prod && pnpm migration:notifications:run:prod"
+	},
+	"dependencies": {
+		"@nestjs/common": "^12.0.1",
+		"@nestjs/config": "^12.0.0",
+		"@nestjs/core": "^12.0.1",
+		"@nestjs/platform-express": "^12.0.1",
+		"@nestjs/typeorm": "^12.0.1",
+		"class-transformer": "^0.5.1",
+		"class-validator": "^0.14.4",
+		"dotenv": "^17.4.2",
+		"pg": "^8.23.0",
+		"reflect-metadata": "^0.2.2",
+		"rxjs": "^7.8.2",
+		"typeorm": "^1.1.1"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.5.11",
+		"@nestjs/cli": "^12.0.0",
+		"@nestjs/schematics": "^12.0.0",
+		"@nestjs/testing": "^12.0.1",
+		"@types/express": "^5.0.6",
+		"@types/node": "^24.13.3",
+		"@types/pg": "^8.23.1",
+		"source-map-support": "^0.5.21",
+		"tsx": "^4.23.13",
+		"typescript": "^6.0.3"
+	}
 }

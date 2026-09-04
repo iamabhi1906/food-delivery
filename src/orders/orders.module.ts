@@ -1,9 +1,10 @@
 import { Module } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
-import { OrderOrmConfig } from "./infrastructure/database/config/orm.config.js";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { OrderModule } from "./order/order.module.js";
+import { OrderOrmConfig } from "./database/config/orm.config.js";
 
 @Module({
-	imports: [ConfigModule.forRoot({ isGlobal: true }), TypeOrmModule.forRootAsync(OrderOrmConfig)],
+	imports: [TypeOrmModule.forRootAsync(OrderOrmConfig), OrderModule],
+	exports: [OrderModule],
 })
 export class OrdersModule {}

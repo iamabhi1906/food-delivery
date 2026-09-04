@@ -1,9 +1,10 @@
 import { Module } from "@nestjs/common";
-import { NotificationOrmConfig } from "./infrastructure/database/config/orm.config.js";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { ConfigModule } from "@nestjs/config";
+import { NotificationModule } from "./notification/notification.module.js";
+import { NotificationOrmConfig } from "./database/config/orm.config.js";
 
 @Module({
-	imports: [ConfigModule.forRoot({ isGlobal: true }), TypeOrmModule.forRootAsync(NotificationOrmConfig)],
+	imports: [TypeOrmModule.forRootAsync(NotificationOrmConfig), NotificationModule],
+	exports: [NotificationModule],
 })
 export class NotificationsModule {}

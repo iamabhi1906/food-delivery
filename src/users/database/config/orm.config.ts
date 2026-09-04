@@ -1,19 +1,25 @@
 import { ConfigService } from "@nestjs/config";
 import { TypeOrmModuleAsyncOptions } from "@nestjs/typeorm";
-import { join } from "node:path";
 
-export const OrderOrmConfig: TypeOrmModuleAsyncOptions = {
+export const UserOrmConfig: TypeOrmModuleAsyncOptions = {
+	name: "users",
 	inject: [ConfigService],
+
 	useFactory: (config: ConfigService) => ({
 		type: "postgres",
+
 		host: config.get<string>("POSTGRES_HOST"),
 		port: config.get<number>("POSTGRES_PORT"),
-		schema: "orders",
+
 		username: config.get<string>("POSTGRES_USER"),
 		password: config.get<string>("POSTGRES_PASSWORD"),
-		database: config.get<string>("POSTGRES_DATABASE"),
-		entities: [join(__dirname, "..", "..", "**", "*.entity.{js,ts}")],
-		migrations: [join(__dirname, "..", "migrations", "*.{js,ts}")],
+		database: config.get<string>("POSTGRES_DB"),
+
+		schema: "users",
+
+		autoLoadEntities: true,
+
+		migrations: ["dist/users/database/migrations/*.js"],
 
 		logging: true,
 		migrationsRun: false,
