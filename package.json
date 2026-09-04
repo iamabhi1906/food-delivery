@@ -19,12 +19,10 @@
 		"start:prod": "node dist/main.js",
 		"typeorm:ts": "tsx ./node_modules/typeorm/cli.js",
 		"typeorm:js": "node ./node_modules/typeorm/cli.js",
-
-		"migration:generate": "tsx ./src/scripts/migration.ts generate",
-		"migration:create": "tsx ./src/scripts/migration.ts create",
-		"migration:run": "pnpm build && node ./dist/scripts/migration.js run",
-		"migration:revert": "pnpm build && node ./dist/scripts/migration.js revert",
-
+		"migration:create": "typeorm-ts-node-commonjs migration:create",
+		"migration:generate": "typeorm-ts-node-commonjs migration:generate dist/database/migrations/Init -d dist/data-source.js",
+		"migration:run": "typeorm-ts-node-commonjs migration:run -d dist/data-source.js",
+		"migration:revert": "typeorm-ts-node-commonjs migration:revert -d dist/data-source.js",
 		"migration:run:all": "pnpm migration:users:run && pnpm migration:orders:run && pnpm migration:notifications:run",
 		"migration:run:all:prod": "pnpm migration:users:run:prod && pnpm migration:orders:run:prod && pnpm migration:notifications:run:prod"
 	},
@@ -51,6 +49,7 @@
 		"@types/node": "^24.13.3",
 		"@types/pg": "^8.23.1",
 		"source-map-support": "^0.5.21",
+		"ts-node": "^10.9.2",
 		"tsx": "^4.23.13",
 		"typescript": "^6.0.3"
 	}
