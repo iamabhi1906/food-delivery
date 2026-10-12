@@ -24,7 +24,6 @@ services:
     depends_on:
       - postgres
 
-
   api:
     build:
       context: .
@@ -43,7 +42,6 @@ services:
     command: pnpm start:dev
     networks:
       - food_delivery
-
 
 volumes:
   food_delivery_data:
